@@ -2,3 +2,5 @@ venv/
 db.sqlite3
 yolo11n.pt
 yolov11m-face.pt
+face_recognizer.yml
+train-pics
