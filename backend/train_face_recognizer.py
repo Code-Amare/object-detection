@@ -2,14 +2,13 @@ from ultralytics import YOLO
 import cv2
 import os
 import numpy as np
-from PIL import Image
 
-face_model = YOLO("yolov11m-face.pt")
+face_model = YOLO("yolov11m-face.pt").to("cuda")
 face_recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 folder_path = "train-pics/"
 
-folders = {1: "Amare", 2: "Temesgen"}
+folders = {1: "Amare", 2: "Temesgen", 3: "Alazar", 4: "Misgana"}
 
 proccessed_image = []
 faces = []
@@ -21,6 +20,8 @@ for lable, folder in folders.items():
     for file in files:
         image = cv2.imread(folder_path + folder + "/" + file)
         face_result = face_model(image, verbose=False)
+        if len(face_result[0].boxes) == 0:
+            continue
 
         proccessed_image.append(face_result)
         left, top, right, bottom = face_result[0].boxes.xyxy[0].int()
